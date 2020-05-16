@@ -22,13 +22,11 @@ class Step extends Panel
      */
     public function __construct($name, $fields = [])
     {  
-        $request = app(NovaRequest::class);
-
-        $resource = $request->resource;
+        $request = app(NovaRequest::class); 
 
         if($request->isCreateOrAttachRequest() || (
             $request->isUpdateOrUpdateAttachedRequest() && 
-            ! is_subclass_of($resource, Contracts\IngoreUpdateWizard::class)
+            ! is_subclass_of($request->resource(), Contracts\IgnoreUpdateWizard::class)
         )) {
             isset(static::$steps[$name]) || static::$steps[$name] = static::$step++;
 
