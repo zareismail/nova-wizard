@@ -65,4 +65,4 @@ should call the `Checkpoint` method on that step. now, checkpoint step and all s
 
 ## Ignore Wizard On Update
 
-For ignoring `wizard-form` on the update page, your resource should implement the `Zareismail\NovaWizard\Contracts\IgnoreUpdateWizard` interface. 
+For ignoring `wizard-form` on the update page, your resource should implement the `Zareismail\NovaWizard\Contracts\IgnoreUpdateWizard`. 
