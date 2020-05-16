@@ -60,7 +60,7 @@ Now; your source automatically displays wizard form to you.
 
 ## Storing
 
-By default; each step, except the last, will store in the session. if you want to store data into the database after a specific step you should call the `Checkpoint` method on that step. now, checkpoint step and all steps after it will be store in the `DB`.
+By default; each step, except the last, will store in the session. if you need to store data into the database after a specific step you should call the `Checkpoint` method on that step. now, checkpoint step and all steps after it will be store in the `DB`.
 
 ## Ignore Wizard On Update
 
