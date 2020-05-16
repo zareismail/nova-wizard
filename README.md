@@ -12,7 +12,8 @@ A wizard form for the Laravel Nova
 
 
 ## Introduction
-The `wizard` gives you the ability to creating or updating a resource step by step via validating and storing each step.
+
+This package gives you the ability to `creating` or `updating` a resource step by step and `validating` and `storing` resources on each step.
 
 ## Installation
 
@@ -24,8 +25,7 @@ To get started with `nova-wizard` run the below command:
 
 ## Resource Configurations
 
-If you want to use wizard form; your resource should implements the `Wizard` interface. 
-Then for create each step use the `Step` class like following:
+To use, your resource class should implement the `Wizard` interface. Then for creating each step use the `Step` class like the following:
 
 ```     
     use Zareismail\NovaWizard\Contracts\Wizard; 
@@ -56,11 +56,13 @@ Then for create each step use the `Step` class like following:
     }
 ``` 
 
-Now; your resource automaticaly display wizard form to you.
+Now; your source automatically displays wizard form to you.
 
 ## Storing
-By default, each step, storing in the session, if you want store data into database after a specific step
-you should use `Checkpoint` method. checkpoint step will store in `DB` and after it all steps will be store in `DB` 
+
+By default; each step stores in the session. if you want to store data into the database after a specific step you
+should call the `Checkpoint` method on that step. now, checkpoint step and all steps after it will be store in the `DB`.
 
 ## Ignore Wizard On Update
-if wnat use wizard form just on creation; your resource should implement the `Zareismail\NovaWizard\Contracts\IgnoreUpdateWizard` interface.
+
+For ignoring `wizard-form` on the update page, your resource should implement the `Zareismail\NovaWizard\Contracts\IgnoreUpdateWizard` interface. 
