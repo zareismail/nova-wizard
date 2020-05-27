@@ -1,7 +1,7 @@
-<template> 
+<template>
   <loading-view :loading="loading">
     <custom-create-header class="mb-3" :resource-name="resourceName" />
-    <wizard-form 
+    <wizard-form
       :navigation="$route.navigable"
       :resource-name="resourceName"
       :resource-id="resourceId"
@@ -14,16 +14,16 @@
       :submit-handler="handleSubmit"
       :submit="__('Create :resource', { resource: singularName })"
       :submit-and-stay="__('Create & Add Another')"
-      :validation-errors="validationErrors" 
+      :validation-errors="validationErrors"
       @cancelled="handleCancelled"
-    />  
+    />
   </loading-view>
 </template>
 
 <script>
 import {
   mapProps,
-  Errors, 
+  Errors,
   InteractsWithResourceInformation,
 } from 'laravel-nova'
 import HandlesSteps from './HandlesSteps'
@@ -36,19 +36,20 @@ export default {
       type: String,
       default: 'form',
       validator: val => ['modal', 'form'].includes(val),
-    }, 
+    },
 
-    ...mapProps([ 
+    ...mapProps([
       'resourceName',
+      'resourceId',
       'viaResource',
       'viaResourceId',
       'viaRelationship',
     ]),
-  }, 
+  },
 
   data: () => ({
     relationResponse: null,
-    loading: true,    
+    loading: true,
     validationErrors: new Errors(),
   }),
 
@@ -85,12 +86,12 @@ export default {
           },
         })
       }
-    } 
+    }
 
     this.getFields()
   },
 
-  
+
   methods: {
     /**
      * Get the available fields for the resource.
@@ -106,7 +107,7 @@ export default {
         {
           params: {
             editing: true,
-            editMode: 'create', 
+            editMode: 'create',
             resourceId: this.resourceId,
             viaResource: this.viaResource,
             viaResourceId: this.viaResourceId,
@@ -117,8 +118,8 @@ export default {
 
       this.panels = panels
       this.fields = fields
-      this.loading = false 
-    }, 
+      this.loading = false
+    },
 
     handleCancelled() {
       if (this.mode == 'form') {
@@ -128,37 +129,37 @@ export default {
       return this.$emit('cancelled-create')
     },
 
-    async handleNext(formData) {  
+    async handleNext(formData) {
       try {
         const {
           data: { redirect, id },
         } = await this.checkpointRequest(formData, this.currentPanel.checkpoint !== true)
 
-        if(this.currentPanel.checkpoint !== true) 
+        if(this.currentPanel.checkpoint !== true)
           Nova.success(
             this.__('The session was saved!')
-          ) 
-        else 
+          )
+        else
           Nova.success(
             this.__('The :resource was created!', {
               resource: this.resourceInformation.singularLabel.toLowerCase(),
             })
           )
 
-        this.validationErrors = new Errors()  
+        this.validationErrors = new Errors()
         this.resourceId = id;
         this.step++
 
         await this.getFields()
-      } catch (error) {  
+      } catch (error) {
         if (error.response.status == 422) {
           this.validationErrors = new Errors(error.response.data.errors)
           Nova.error(this.__('There was a problem submitting the form.'))
         }
-      }   
-    },  
+      }
+    },
 
-    async handleSubmit(formData, close) {  
+    async handleSubmit(formData, close) {
       try {
         const {
           data: { redirect, id },
@@ -171,21 +172,21 @@ export default {
         )
 
         if (close) {
-          this.$router.push({ path: redirect }) 
+          this.$router.push({ path: redirect })
         } else {
-          // Reset the form by refetching the fields  
-          this.validationErrors = new Errors() 
+          // Reset the form by refetching the fields
+          this.validationErrors = new Errors()
           this.step = 0
-          await this.getFields() 
-        } 
-        
-      } catch (error) {   
+          await this.getFields()
+        }
+
+      } catch (error) {
         if (error.response.status == 422) {
           this.validationErrors = new Errors(error.response.data.errors)
           Nova.error(this.__('There was a problem submitting the form.'))
         }
-      }   
-    },  
+      }
+    },
 
     /**
      * Send a checkpoint request for this resource
@@ -199,12 +200,12 @@ export default {
             editing: true,
             editMode: 'create',
             storeMode: 'checkpoint',
-            viaSession: session,   
+            viaSession: session,
             resourceId: this.resourceId,
           },
         }
       )
-    }, 
+    },
 
     /**
      * Send a checkpoint request for this resource
@@ -218,16 +219,16 @@ export default {
             editing: true,
             editMode: 'create',
             storeMode: 'submit',
-            viaSession: false,   
+            viaSession: false,
             resourceId: this.resourceId,
           },
         }
       )
-    }, 
+    },
   },
 
 
-  computed: {  
+  computed: {
     singularName() {
       if (this.relationResponse) {
         return this.relationResponse.singularLabel
@@ -238,7 +239,7 @@ export default {
 
     isRelation() {
       return Boolean(this.viaResourceId && this.viaRelationship)
-    }, 
+    },
 
     alreadyFilled() {
       return this.relationResponse && this.relationResponse.alreadyFilled
@@ -247,7 +248,7 @@ export default {
     isHasOneRelationship() {
       return this.relationResponse && this.relationResponse.hasOneRelationship
     },
- 
+
   },
 }
 </script>
